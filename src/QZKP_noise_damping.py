@@ -10,13 +10,6 @@ import time
 import sys
 import pandas as pd
 
-noise_model = NoiseModel()
-gamma = 0.1 # Probabilidad de pérdida de amplitud
-lam = 0.1 # Probabilidad de descoherencia de fase
-error = error = phase_amplitude_damping_error(gamma, lam)
-noise_model.add_all_qubit_quantum_error(error, ['h', 'measure'])
-sim = AerSimulator(noise_model=noise_model)
-
 #----------------------------------------
 # Auxiliary functions
 #----------------------------------------
@@ -136,8 +129,14 @@ if __name__=='__main__':
 
     key_length = int(sys.argv[1])
     num_iter = int(sys.argv[2])
+    gamma = float(sys.argv[3]) # Probabilidad of amplitude damping
+    lam = float(sys.argv[4]) # Probability of phase damping
+
+    noise_model = NoiseModel()
+    error = error = phase_amplitude_damping_error(gamma, lam)
+    noise_model.add_all_qubit_quantum_error(error, ['h', 'measure'])
+    sim = AerSimulator(noise_model=noise_model)
     percentages = []
-    threshold = 62.5
 
     start_time = time.time()
 
@@ -194,7 +193,7 @@ if __name__=='__main__':
 
     iters = range(1,num_iter + 1)
     results = pd.DataFrame({'Iteration': iters, 'Decision': decisions, 'Percentages': equal_percentages})
-    results.to_csv(f'iter_damping_error_data_{key_length}_{num_iter}.csv', index=False)
+    results.to_csv(f'iter_damping_error_data_{key_length}_{num_iter}_{gamma}_{lam}.csv', index=False)
 
     # Separate honest iteration and dishonest iterations
     honest_data = [percentage for percentage, dec in percentages if dec == 0]
@@ -209,5 +208,5 @@ if __name__=='__main__':
     df_dishonest = pd.DataFrame({'Percentage': count_dishonest.index, 'Frecuency': count_dishonest.values})
 
     # Guardar en un archivo CSV
-    df_honest.to_csv(f'honest_damping_error_data_{key_length}_{num_iter}.csv', index=False)
-    df_dishonest.to_csv(f'dishonest_damping_error_data_{key_length}_{num_iter}.csv', index=False)
+    df_honest.to_csv(f'honest_damping_error_data_{key_length}_{num_iter}_{gamma}_{lam}.csv', index=False)
+    df_dishonest.to_csv(f'dishonest_damping_error_data_{key_length}_{num_iter}_{gamma}_{lam}.csv', index=False)
