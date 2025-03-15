@@ -7,7 +7,7 @@ import pandas as pd
 import seaborn as sns
 import time
 import sys
-sim = AerSimulator()
+
 
 #----------------------------------------
 # Auxiliary functions
@@ -110,16 +110,7 @@ def random_binary_string(length):
 
 def loading_bar(iteration, total, start_time, prefix='Progress:', length=50, fill='█', print_end='\r'):
     """
-    Actualiza una barra de progreso en cada iteración de un bucle, con un contador de tiempo.
-
-    Args:
-        iteration (int): Iteración actual (debe comenzar en 0).
-        total (int): Número total de iteraciones.
-        start_time (float): Tiempo inicial (resultado de time.time()).
-        prefix (str): Texto que se muestra antes de la barra.
-        length (int): Longitud de la barra.
-        fill (str): Carácter utilizado para llenar la barra.
-        print_end (str): Carácter para terminar el print, usa '\r' para sobreescribir.
+    Progress bar.
     """
     percent = 100 * (iteration / total)
     filled_length = int(length * iteration // total)
@@ -136,6 +127,8 @@ if __name__=='__main__':
     
     key_length = int(sys.argv[1])
     num_iter = int(sys.argv[2])
+    sim = AerSimulator()
+    
     percentages = []
 
     start_time = time.time()
