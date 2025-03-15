@@ -17,7 +17,6 @@ This repository contains an implementation of a **zero-knowledge** cryptographic
   - [State Preparation](#state-preparation)
   - [Zero-Knowledge Modifications](#zero-knowledge-modifications)
   - [Measurements and Comparisons](#measurements-and-comparisons)
-- [Possible Improvements](#possible-improvements)
 - [Contributions](#contributions)
 - [License](#license)
 
