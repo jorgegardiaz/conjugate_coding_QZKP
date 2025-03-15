@@ -1,7 +1,6 @@
 from qiskit import QuantumCircuit # qiskit 1.3.1
 from qiskit_aer import AerSimulator # qiskit_aer 0.16.0
 import sys
-sim = AerSimulator()
 
 #----------------------------------------
 # Funcitons
@@ -87,13 +86,9 @@ def equal_entries_percentage(list1, list2):
 #----------------------------------------
 # Protocol execution
 #----------------------------------------
-
-# 1. Keys generation (this keys could be shared through QKD)
-
-
-
 if __name__ == '__main__':
-
+    
+    sim = AerSimulator()
     key_length = int(sys.argv[1])
     basis = quantum_random_binary_string(key_length)
     w = quantum_random_binary_string(key_length)
@@ -121,4 +116,4 @@ if __name__ == '__main__':
     # 6. Coincidence precentage (Bob)
     equal_percentage = equal_entries_percentage(c, c_aprox)
 
-    print(f'{equal_percentage}% de acierto para clave de longitud {key_length} bits.')
+    print(f'{equal_percentage}% accuracy for {key_length} bits key length.')
