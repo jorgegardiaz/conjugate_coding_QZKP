@@ -114,13 +114,6 @@ Similar data output to the other scripts, generating CSVs with per-iteration met
 
 ---
 
-## Possible Improvements
-- **Multi-qubit optimization**: Currently, each qubit is handled individually. You could explore managing full quantum registers to optimize performance.
-- **Additional statistical analyses**: Integrate deeper tests (e.g., hypothesis testing) to confirm quantum advantage or measure security more rigorously.
-- **Enhanced visualizations**: Add scripts to visualize distributions of success rates under different noise levels and key lengths.
-
----
-
 ## Contributions
 Contributions are welcome! To propose changes:
 1. Fork this repository
