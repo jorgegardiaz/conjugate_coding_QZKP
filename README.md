@@ -40,20 +40,14 @@ The repository includes different scripts that illustrate various versions of th
 A suggested directory layout is as follows:
 
 ```bash
-├── README.md                 # Project overview and instructions
-├── requirements.txt          # List of dependencies (Qiskit, etc.)
+├── README.md
+├── requirements.txt
 ├── src
-│   ├── QZKP_barebones.py     # (formerly QZKP_BB84.py) Minimal or "barebones" example
-│   ├── QZKP_ideal.py         # (formerly good_vs_bad.py) Ideal version without noise
-│   ├── QZKP_noise_damping.py # (formerly good_vs_bad_error.py) With phase-amplitude noise
-│   ├── QZKP_noise_flip.py    # (formerly good_vs_bad_error_flip.py) With bit-flip and phase-flip noise
-└── docs
-    └── ...                   # (Optional) Extended documentation, graphs, or reports
+│   ├── QZKP_barebones.py
+│   ├── QZKP_ideal.py
+│   ├── QZKP_noise_damping.py
+│   ├── QZKP_noise_flip.py
 ```
-
-1. **`src/`**: Main folder containing the scripts that implement each version of the protocol.  
-2. **`docs/`** *(optional)*: Holds additional documentation, reports, and images if you need more extensive explanations or visualizations.
-
 ---
 
 ## Prerequisites
