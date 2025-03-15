@@ -12,11 +12,6 @@ This repository contains an implementation of a **zero-knowledge** cryptographic
   - [2. QZKP_ideal.py](#2-qzkp_idealpy)
   - [3. QZKP_noise_damping.py](#3-qzkp_noise_dampingpy)
   - [4. QZKP_noise_flip.py](#4-qzkp_noise_flippy)
-- [Technical Explanation](#technical-explanation)
-  - [Quantum Key Generation](#quantum-key-generation)
-  - [State Preparation](#state-preparation)
-  - [Zero-Knowledge Modifications](#zero-knowledge-modifications)
-  - [Measurements and Comparisons](#measurements-and-comparisons)
 - [Contributions](#contributions)
 - [License](#license)
 
