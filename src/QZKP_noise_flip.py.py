@@ -1,4 +1,3 @@
-
 from qiskit import QuantumCircuit, transpile
 from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel, pauli_error, thermal_relaxation_error
@@ -10,10 +9,6 @@ import time
 import sys
 import pandas as pd
 
-pbit = 0.03  # Probability for bit-flip
-pphase = 0.03  # Probability for phase-flip
-
-sim = AerSimulator(device="CPU")
 #----------------------------------------
 # Auxiliary functions
 #----------------------------------------
@@ -149,8 +144,11 @@ if __name__=='__main__':
 
     key_length = int(sys.argv[1])
     num_iter = int(sys.argv[2])
+    pbit = float(sys.argv[3])  # Probability for bit-flip
+    pphase = float(sys.argv[4])  # Probability for phase-flip
+    sim = AerSimulator()
+
     percentages = []
-    threshold = 62.5
 
     start_time = time.time()
 
