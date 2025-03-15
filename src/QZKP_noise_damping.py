@@ -1,4 +1,3 @@
-
 from qiskit import QuantumCircuit, transpile
 from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel, phase_amplitude_damping_error
