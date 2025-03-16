@@ -31,8 +31,6 @@ The repository includes different scripts that illustrate various versions of th
 
 ## Repository Structure
 
-A suggested directory layout is as follows:
-
 ```bash
 ├── README.md
 ├── requirements.txt
