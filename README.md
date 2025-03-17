@@ -93,14 +93,14 @@ Generates CSV files with statistics for the success rate of each iteration, dist
 ### 3. `QZKP_noise_damping.py`
 Implements a **phase-amplitude damping** noise model:
 ```bash
-python QZKP_noise_damping.py <key_length> <num_iterations>
+python QZKP_noise_damping.py <key_length> <num_iterations> <gamma> <lambda>
 ```
 Saves CSVs with results for honest and dishonest prover outcomes under damping noise.
 
 ### 4. `QZKP_noise_flip.py`
 Implements **bit-flip** and **phase-flip** noise models:
 ```bash
-python QZKP_noise_flip.py <key_length> <num_iterations>
+python QZKP_noise_flip.py <key_length> <num_iterations> <pbit> <pphase>
 ```
 Similar data output to the other scripts, generating CSVs with per-iteration metrics.
 
