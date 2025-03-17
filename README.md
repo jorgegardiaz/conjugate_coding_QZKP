@@ -45,7 +45,7 @@ The repository includes different scripts that illustrate various versions of th
 ## Prerequisites
 
 - [Python 3.8+](https://www.python.org/)
-- [Qiskit](https://qiskit.org/) (including `qiskit-aer`, `qiskit-terra`, etc.)
+- [Qiskit](https://qiskit.org/) (including `qiskit-aer`)
 - [matplotlib](https://matplotlib.org/)
 - [pandas](https://pandas.pydata.org/)
 - [numpy](https://numpy.org/)
