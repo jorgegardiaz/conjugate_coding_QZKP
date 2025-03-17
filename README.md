@@ -19,13 +19,13 @@ This repository contains an implementation of a **zero-knowledge** cryptographic
 
 ## Overview
 
-This project explores a **Zero-Knowledge Proof (ZKP)** approach within the quantum paradigm. It leverages quantum states to prove the possession of certain information (like a secret bitstring and the basis in which it was encoded) without revealing the actual secret to the verifier.
+This project explores a **Zero-Knowledge Proof (ZKP)** approach within the quantum paradigm (QZKP, Quantum Zero-Knowledge Proof). It leverages quantum states to prove the possession of certain information (like a secret bitstring and the basis in which it was encoded) without revealing the actual secret to the verifier.
 
 The repository includes different scripts that illustrate various versions of the protocol:
 
-- **Basic version** without noise.  
-- **Versions with different noise models** (phase damping, bit-flip, phase-flip, etc.).  
-- **A minimal example** to showcase the fundamental steps of the protocol (similar to BB84 for quantum key generation).
+- **Basic version** without noise.
+- **Versions with different noise models** (phase damping, bit-flip, phase-flip).
+- **A minimal example** to showcase the fundamental steps of the protocol.
 
 ---
 
