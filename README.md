@@ -59,7 +59,7 @@ All dependencies are (or can be) listed in the `requirements.txt` file.
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/jorgegardiaz/conjugate_coding_QZKP.git
-   cd your_repository
+   cd conjugate_coding_QZKP
    ```
 2. *(Optional)* **Create and activate a virtual environment**:
    ```bash
