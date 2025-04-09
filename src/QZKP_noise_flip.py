@@ -40,7 +40,7 @@ def psi_gen(w, basis):
             if np.random.choice([0, 1], p=[1 - pbit, pbit]):
                 qubit.x(0)
             if np.random.choice([0, 1], p=[1 - pphase, pphase]):
-                qubit.h(0)
+                qubit.z(0)
         if basis[i] == 1:
             qubit.h(0)
         psi.append(qubit)
