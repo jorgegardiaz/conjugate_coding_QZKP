@@ -42,7 +42,7 @@ def psi_gen(w, basis):
         psi.append(qubit)
     return psi
 
-def challenge_gen(psi, c):
+def challenge_gen(psi, c, b):
     '''
     Generation of the challenge for |psi>.
     '''
@@ -50,7 +50,10 @@ def challenge_gen(psi, c):
         raise ValueError('Same number of qubits and bits expected.')
     for i in range(len(psi)):
         if c[i] == 1:
-            psi[i].h(0)
+            if b[i]==0:
+                psi[i].x(0)
+            else:
+                psi[i].z(0)
     return psi
 
 def zk_mod(psi, p):
@@ -152,7 +155,7 @@ if __name__=='__main__':
         psi = psi_gen(w, basis) # |psi> state generation from w and basis
 
         c = quantum_random_binary_string(key_length) # Random generation for c
-        psi = challenge_gen(psi, c) # Challenge setup
+        psi = challenge_gen(psi, c, basis) # Challenge setup
 
         # After this, Bob sends the modified qubits to Alice 
 
@@ -185,7 +188,7 @@ if __name__=='__main__':
         iter +=1
 
     #----------------------------------------
-    # Graphs
+    # Data
     #----------------------------------------
     equal_percentages = [x[0] for x in percentages]
     decisions = [x[1] for x in percentages]
