@@ -68,21 +68,6 @@ def challenge_gen(psi, c, b):
                     psi[i].z(0)
     return psi
 
-def challenge_gen(psi, c):
-    '''
-    Generation of the challenge for |psi>.
-    '''
-    if len(psi) != len(c):
-        raise ValueError('Same number of qubits and bits expected.')
-    for i in range(len(psi)):
-        if c[i] == 1:
-            psi[i].h(0)
-            if np.random.choice([0, 1], p=[1 - pbit, pbit]):
-                psi[i].x(0)
-            if np.random.choice([0, 1], p=[1 - pphase, pphase]):
-                psi[i].z(0)
-    return psi
-
 def zk_mod(psi, p):
     '''
     Alice Zero-Knowledge momdifications to the state |psi>.
