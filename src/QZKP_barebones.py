@@ -1,5 +1,5 @@
-from qiskit import QuantumCircuit # qiskit 1.3.1
-from qiskit_aer import AerSimulator # qiskit_aer 0.16.0
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
 import sys
 
 #----------------------------------------
