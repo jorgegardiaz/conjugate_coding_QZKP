@@ -1,6 +1,5 @@
 from qiskit import QuantumCircuit, transpile
 from qiskit_aer import AerSimulator
-from qiskit_aer.noise import NoiseModel, pauli_error, thermal_relaxation_error
 import random
 import matplotlib.pyplot as plt
 import numpy as np
