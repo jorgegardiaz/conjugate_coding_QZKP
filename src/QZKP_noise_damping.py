@@ -209,6 +209,6 @@ if __name__=='__main__':
     df_honest = pd.DataFrame({'Percentage': count_honest.index, 'Frecuency': count_honest.values})
     df_dishonest = pd.DataFrame({'Percentage': count_dishonest.index, 'Frecuency': count_dishonest.values})
 
-    # Guardar en un archivo CSV
+    # Save to CSV
     df_honest.to_csv(f'honest_damping_error_data_{key_length}_{num_iter}_{gamma}_{lam}.csv', index=False)
     df_dishonest.to_csv(f'dishonest_damping_error_data_{key_length}_{num_iter}_{gamma}_{lam}.csv', index=False)
