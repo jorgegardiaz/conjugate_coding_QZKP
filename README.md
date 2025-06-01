@@ -79,9 +79,10 @@ All dependencies are (or can be) listed in the `requirements.txt` file.
 ### 1. `QZKP_barebones.py`
 A **minimal** script that shows the fundamental protocol steps:
 ```bash
-python QZKP_barebones.py <key_length>
+python QZKP_barebones.py <key_length> <verbose>
 ```
 It prints the percentage of correctly guessed challenge bits (the “success rate”) for a given key length.
+If verbose option is selected (<verbose> == v) it will print all binary sequences and quantum states step by step.
 
 ### 2. `QZKP_ideal.py`
 An **ideal** version (no noise) that compares a *honest* prover (Alice) and a *dishonest* one (Eve):
