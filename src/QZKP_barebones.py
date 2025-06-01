@@ -95,6 +95,10 @@ if __name__ == '__main__':
     key_length = int(sys.argv[1])
     basis = quantum_random_binary_string(key_length)
     w = quantum_random_binary_string(key_length)
+    verbose = False
+    if len(sys.argv) == 3:
+        if str(sys.argv[2]) == 'v':
+            verbose = True
 
     # 2. Preparation of the challenge (Bob)
     psi = psi_gen(w, basis) # |psi> state generation from w and basis
@@ -119,4 +123,34 @@ if __name__ == '__main__':
     # 6. Coincidence precentage (Bob)
     equal_percentage = equal_entries_percentage(c, c_aprox)
 
-    print(f'{equal_percentage}% accuracy for {key_length} bits key length.')
+    if verbose:
+
+        print('\n--- Random Shared Secret Keys ---')
+        print(f'Secret bits ---> a = {w}')
+        print(f'Secret basis ---> b = {basis}\n')
+        secret_state =  [w_val if b_val == 0 else ('+' if w_val == 0 else '-') for w_val, b_val in zip(w, basis)]
+        print(f'Coded secret state ---> {secret_state}\n')
+        input()
+
+        print(f'--- Challenge Generation ---')
+        challenge_state = [s_val if c_val == 0 else ({0: 1, 1: 0, '+': '-', '-': '+'}[s_val]) for s_val, c_val in zip(secret_state, c)]
+        print(f'Random challenge sequence ---> c = {c}')
+        print(f'Challenge state ---> {challenge_state}')
+        input()
+
+        print('\n--- Bob Sends challenge State through Quantum Channel to Alice --- \n')
+        print('--- Alice\'s Zero Knowledge Modifications ---')
+        print(f'Zero modifications sequence ---> p = {p}')
+        mod_state =  [s_val if c_val == 0 else ({0: '+', 1: '-', '+': 0, '-': 1}[s_val]) for s_val, c_val in zip(challenge_state, p)]
+        print(f'Modified state ---> {mod_state}')
+        input()
+
+        print('\n--- Alice\'s meassurements results and proof generation')
+        print(f'Measure results ---> a\' = {results}')
+        print(f'Generated proof ---> c\' = {c_aprox}')
+        input()
+
+        print('\n--- Alice sends the proof to Bob and he counts the coincidences between c and c\' ---')
+        print(f'Numer of coincidences ---> {int(equal_percentage*key_length/100)}')
+
+    print(f'\n{equal_percentage}% accuracy for {key_length} bits keys length.\n')
