@@ -82,7 +82,8 @@ A **minimal** script that shows the fundamental protocol steps:
 python QZKP_barebones.py <key_length> <verbose>
 ```
 It prints the percentage of correctly guessed challenge bits (the “success rate”) for a given key length.
-If verbose option is selected (<verbose> == v) it will print all binary sequences and quantum states step by step.
+
+If verbose option is selected (\<verbose\> == v) it will print all binary sequences and quantum states step by step, this paremeter is opcional. 
 
 ### 2. `QZKP_ideal.py`
 An **ideal** version (no noise) that compares a *honest* prover (Alice) and a *dishonest* one (Eve):
