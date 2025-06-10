@@ -18,7 +18,6 @@ def quantum_random_binary_string(length):
         string.append(int(list(exec.get_counts(qcoin).keys())[0]))
     return string
 
-
 def psi_gen(w, basis):
     '''
     Generation of the quantum state |psi>.
