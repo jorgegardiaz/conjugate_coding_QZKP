@@ -193,9 +193,13 @@ if __name__=='__main__':
 
             # 5. Building the approximation for c (Alice)
             c_aprox = c_aprox_gen(results, p, w)
+            proof_state = psi_gen(tuple(a ^ b for a, b in zip(basis, c_aprox)), w)
+            
             # After this, Alice sends her approximation of c to Bob
 
-            # 6. Coincidence percentage (Bob)
+            # 6. Coincidence precentage (Bob)
+            prove = measurements(proof_state, w)
+            c_aprox = tuple(a ^ b for a, b in zip(prove, basis))
             equal_percentage = equal_entries_percentage(c, c_aprox)
             percentages.append((equal_percentage, dec))
 

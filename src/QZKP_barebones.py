@@ -18,18 +18,18 @@ def quantum_random_binary_string(length):
         string.append(int(list(exec.get_counts(qcoin).keys())[0]))
     return string
 
-def psi_gen(w, basis):
+def psi_gen(a, b):
     '''
     Generation of the quantum state |psi>.
     '''
-    if len(w) != len(basis):
+    if len(a) != len(b):
         raise ValueError('Same number of basis and bits expected.')
     psi = []
     for i in range(len(w)):
         qubit = QuantumCircuit(1, 1)
-        if w[i] == 1:
+        if a[i] == 1:
             qubit.x(0)
-        if basis[i] == 1:
+        if b[i] == 1:
             qubit.h(0)
         psi.append(qubit)
     return psi
@@ -116,10 +116,12 @@ if __name__ == '__main__':
 
     # 5. Building the approximation for c (Alice)
     c_aprox = c_aprox_gen(results, p, w)
-
+    proof_state = psi_gen(tuple(a ^ b for a, b in zip(basis, c_aprox)), w)
     # After this, Alice sends her approximation of c to Bob
 
     # 6. Coincidence precentage (Bob)
+    prove = measurements(proof_state, w)
+    c_aprox = tuple(a ^ b for a, b in zip(prove, basis))
     equal_percentage = equal_entries_percentage(c, c_aprox)
 
     if verbose:
@@ -146,10 +148,12 @@ if __name__ == '__main__':
 
         print('\n--- Alice\'s meassurements results and proof generation')
         print(f'Measure results ---> a\' = {results}')
-        print(f'Generated proof ---> c\' = {c_aprox}')
+        print(f'Generated approximation ---> c\' = {c_aprox}\n')
+        proof_state = [w_val if b_val == 0 else ('+' if w_val == 0 else '-') for w_val, b_val in zip(tuple(a ^ b for a, b in zip(basis, c_aprox)), w)]
+        print(f'Proof state ---> {proof_state}')
         input()
 
-        print('\n--- Alice sends the proof to Bob and he counts the coincidences between c and c\' ---')
+        print('\n--- Alice sends the proof state to Bob and he counts the coincidences between c and c\' ---')
         print(f'Numer of coincidences ---> {int(equal_percentage*key_length/100)}')
 
     print(f'\n{equal_percentage}% accuracy for {key_length} bits keys length.\n')
