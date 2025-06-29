@@ -25,22 +25,22 @@ def quantum_random_binary_string(length):
     return string
 
 
-def psi_gen(w, basis):
+def psi_gen(a, b):
     '''
     Generation of the quantum state |psi>.
     '''
-    if len(w) != len(basis):
-        raise ValueError('Same number of basis and bits expected.')
+    if len(a) != len(b):
+        raise ValueError('Same number of b and bits expected.')
     psi = []
-    for i in range(len(w)):
+    for i in range(len(a)):
         qubit = QuantumCircuit(1, 1)
-        if w[i] == 1:
+        if a[i] == 1:
             qubit.x(0)
             if np.random.choice([0, 1], p=[1 - pbit, pbit]):
                 qubit.x(0)
             if np.random.choice([0, 1], p=[1 - pphase, pphase]):
                 qubit.z(0)
-        if basis[i] == 1:
+        if b[i] == 1:
             qubit.h(0)
         psi.append(qubit)
     return psi
@@ -67,30 +67,40 @@ def challenge_gen(psi, c, b):
                     psi[i].z(0)
     return psi
 
-def zk_mod(psi, p):
-    '''
-    Alice Zero-Knowledge momdifications to the state |psi>.
-    '''
-    if len(psi) != len(p):
+def alice_mod(psi, a, b):
+    if len(psi) != len(a) or len(psi) != len(a):
         raise ValueError('Same number of qubits and bits expected.')
+    a_xor_b = tuple(i ^ j for i,j in zip(a,b))
     for i in range(len(psi)):
-        if p[i] == 1:
+        if b[i] == 1:
+            psi[i].z(0)
+            if np.random.choice([0, 1], p=[1 - pbit, pbit]):
+                psi[i].x(0)
+            if np.random.choice([0, 1], p=[1 - pphase, pphase]):
+                psi[i].z(0)
+        if a_xor_b[i] == 1:
             psi[i].h(0)
+            if np.random.choice([0, 1], p=[1 - pbit, pbit]):
+                psi[i].x(0)
+            if np.random.choice([0, 1], p=[1 - pphase, pphase]):
+                psi[i].z(0)
+        if a[i] == 1:
+            psi[i].z(0)
             if np.random.choice([0, 1], p=[1 - pbit, pbit]):
                 psi[i].x(0)
             if np.random.choice([0, 1], p=[1 - pphase, pphase]):
                 psi[i].z(0)
     return psi
 
-def measurements(psi, basis):
+def measurements(psi, b):
     '''
-    Alice measures using the secret basis.
+    Alice measures using the secret b.
     '''
-    if len(psi) != len(basis):
-        raise ValueError('Same number of qubits and basis expected.')
+    if len(psi) != len(b):
+        raise ValueError('Same number of qubits and b expected.')
     results = []
     for i in range(len(psi)):
-        if basis[i] == 1:
+        if b[i] == 1:
             psi[i].h(0)
             if np.random.choice([0, 1], p=[1 - pbit, pbit]):
                 psi[i].x(0)
@@ -103,14 +113,14 @@ def measurements(psi, basis):
         results.append(result)
     return results
 
-def c_aprox_gen(results, p, w):
+def c_aprox_gen(results, p, a):
     '''
     Generation of the approximation c' for c.
     '''
     c_aprox = []
     for i, bit in enumerate(results):
-        # if bit == w[i] gamma[i]; else !gamma[i]
-        decission = int(p[i] ^ (bit != w[i]))
+        # if bit == a[i] gamma[i]; else !gamma[i]
+        decission = int(p[i] ^ (bit != a[i]))
         c_aprox.append(decission)
     return c_aprox
 
@@ -153,14 +163,16 @@ if __name__=='__main__':
     pbit = float(sys.argv[3])  # Probability for bit-flip
     pphase = float(sys.argv[4])  # Probability for phase-flip
     sim = AerSimulator()
-
+    attack = True
     percentages = []
 
     start_time = time.time()
 
-    basis = quantum_random_binary_string(key_length)
-    w = quantum_random_binary_string(key_length)
-
+    b = quantum_random_binary_string(key_length)
+    a = quantum_random_binary_string(key_length)
+    if attack:
+        print('--- Simulations with attacker ---\n')
+        a_xor_b = tuple(i ^ j for i, j in zip(a, b))
 
     iter=1
     for i in range(num_iter):
@@ -168,46 +180,48 @@ if __name__=='__main__':
         # 1. Keys generation (this keys could be shared through QKD)
 
         # 2. Preparation of the challenge (Bob)
-        psi = psi_gen(w, basis) # |psi> state generation from w and basis
+        psi = psi_gen(a, b) # |psi> state generation from a and b
 
         c = quantum_random_binary_string(key_length) # Random generation for c
-        psi = challenge_gen(psi, c, basis) # Challenge setup
+        challenge_state = challenge_gen(psi, c, b) # Challenge setup
 
         # After this, Bob sends the modified qubits to Alice 
-        for i in range(len(psi)):
-            if np.random.choice([0, 1], p=[1 - pbit, pbit]):
-                psi[i].x(0)
-        for i in range(len(psi)):
-            if np.random.choice([0, 1], p=[1 - pphase, pphase]):
-                psi[i].z(0)
 
         if dec == 0:
             # Honest prover Alice
 
-            # 3. Zero-Knowledge modifications (Alice)
-            p = quantum_random_binary_string(key_length) # Random generation for p
-            psi = zk_mod(psi, p)
+            # 3.  Alice modification's
 
-            # 4. Measurments (Alice)
-            results = measurements(psi, basis) # Alice measures |psi> using the basis
+            proof_state = alice_mod(challenge_state, a, b)
 
-            # 5. Building the approximation for c (Alice)
-            c_aprox = c_aprox_gen(results, p, w)
-            proof_state = psi_gen(tuple(a ^ b for a, b in zip(basis, c_aprox)), w)
-            
-            # After this, Alice sends her approximation of c to Bob
+            # Alice send the proof state to Bob.
 
-            # 6. Coincidence precentage (Bob)
-            prove = measurements(proof_state, w)
-            c_aprox = tuple(a ^ b for a, b in zip(prove, basis))
+            # 6. Bob retrieves c.
+            b_xor_c = measurements(proof_state, a)
+            c_aprox = tuple(i ^j for i,j in zip(b, b_xor_c))
             equal_percentage = equal_entries_percentage(c, c_aprox)
             percentages.append((equal_percentage, dec))
 
         else:
-            # Dishonest prover Eve
-            c_aprox = random_binary_string(key_length)
-            equal_percentage = equal_entries_percentage(c, c_aprox)
-            percentages.append((equal_percentage, dec))
+            if attack == True:
+                # 3. Eve (which has access to a XOR b) meassures the challenge state randomly and generates the attakc estimation
+                r = random_binary_string(key_length)
+                measure_results = measurements(challenge_state, r)
+                attack_estimation = tuple(i ^ j for i,j in zip(a_xor_b, measure_results))
+        
+                # 4. Eve generates the attack state encoding the attack estimaiton with ranodm bassis
+                r = random_binary_string(key_length)
+                attack_state = psi_gen(attack_estimation, r)
+                # 5. Eve sends the attack state to Bob and he measures and count matches
+                results = measurements(attack_state, a)
+                c_aprox = tuple(i ^j for i,j in zip(b, results))
+                equal_percentage = equal_entries_percentage(c, c_aprox)
+                percentages.append((equal_percentage, dec))
+            else:
+                # Dishonest prover Eve
+                c_aprox = random_binary_string(key_length)
+                equal_percentage = equal_entries_percentage(c, c_aprox)
+                percentages.append((equal_percentage, dec))
         loading_bar(iter, num_iter, start_time)
         iter +=1
 
@@ -219,20 +233,4 @@ if __name__=='__main__':
 
     iters = range(1,num_iter + 1)
     results = pd.DataFrame({'Iteration': iters, 'Decision': decisions, 'Percentages': equal_percentages})
-    results.to_csv(f'iter_flip_error_data_{key_length}_{num_iter}.csv', index=False)
-
-    # Separate honest iteration and dishonest iterations
-    honest_data = [percentage for percentage, dec in percentages if dec == 0]
-    dishonest_data = [percentage for percentage, dec in percentages if dec == 1]
-    
-    # Count values
-    count_honest = pd.Series(honest_data).value_counts()
-    count_dishonest = pd.Series(dishonest_data).value_counts()
-
-    # Convert to DataFrame
-    df_honest = pd.DataFrame({'Percentage': count_honest.index, 'Frequency': count_honest.values})
-    df_dishonest = pd.DataFrame({'Percentage': count_dishonest.index, 'Frequency': count_dishonest.values})
-
-    # Save to CSV
-    df_honest.to_csv(f'honest_flip_error_data_{key_length}_{num_iter}.csv', index=False)
-    df_dishonest.to_csv(f'dishonest_flip_error_data_{key_length}_{num_iter}.csv', index=False)
+    results.to_csv(f'iter_flip_error_data_attack={attack}_{key_length}_{num_iter}.csv', index=False)

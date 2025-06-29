@@ -9,7 +9,7 @@ This repository contains an implementation of a **zero knowledge** cryptographic
 - [Installation](#installation)
 - [Script Usage](#script-usage)
   - [1. QZKP_barebones.py](#1-qzkp_barebonespy)
-  - [2. QZKP_ideal.py](#2-qzkp_idealpy)
+  - [2. QZKP_attack_ideal.py](#2-qzkp_idealpy)
   - [3. QZKP_noise_damping.py](#3-qzkp_noise_dampingpy)
   - [4. QZKP_noise_flip.py](#4-qzkp_noise_flippy)
 - [Contributions](#contributions)
@@ -36,7 +36,7 @@ The repository includes different scripts that illustrate various versions of th
 ├── requirements.txt
 ├── src
 │   ├── QZKP_barebones.py
-│   ├── QZKP_ideal.py
+│   ├── QZKP_attack_ideal.py
 │   ├── QZKP_noise_damping.py
 │   ├── QZKP_noise_flip.py
 ```
@@ -85,8 +85,8 @@ It prints the percentage of correctly guessed challenge bits (the “success rat
 
 If verbose option is selected (\<verbose\> == v) it will print all binary sequences and quantum states step by step, this paremeter is opcional. 
 
-### 2. `QZKP_ideal.py`
-An **ideal** version (no noise) that compares a *honest* prover (Alice) and a *dishonest* one (Eve):
+### 2. `QZKP_attack_ideal.py`
+An **ideal** version (no noise) that simulates *dishonest* prover one (Eve) wich has access to $a\oplus b$:
 ```bash
 python QZKP_ideal.py <key_length> <num_iterations>
 ```
