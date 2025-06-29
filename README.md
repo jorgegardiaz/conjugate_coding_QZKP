@@ -90,7 +90,7 @@ An **ideal** version (no noise) that simulates *dishonest* prover one (Eve) wich
 ```bash
 python QZKP_ideal.py <key_length> <num_iterations>
 ```
-Generates CSV files with statistics for the success rate of each iteration, distinguishing honest vs. dishonest attempts.
+Generates CSV files with statistics for the success rate of each iteration.
 
 ### 3. `QZKP_noise_damping.py`
 Implements a **phase-amplitude damping** noise model:
