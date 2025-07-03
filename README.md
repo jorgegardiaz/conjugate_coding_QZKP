@@ -58,14 +58,14 @@ All dependencies are (or can be) listed in the `requirements.txt` file.
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/jorgegardiaz/conjugate_coding_QZKP.git
-   cd conjugate_coding_QZKP
+   git clone https://github.com/jorgegardiaz/conjugate-coding-QZKP.git
+   cd conjugate-coding-QZKP
    ```
 2. *(Optional)* **Create and activate a virtual environment**:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # For Linux/Mac
-   venv\Scripts\activate   # For Windows
+   python -m venv .venv
+   source .venv/bin/activate  # For Linux/Mac
+   .venv\Scripts\activate   # For Windows
    ```
 3. **Install dependencies**:
    ```bash
